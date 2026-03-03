@@ -2,8 +2,10 @@ import { useState, useEffect, useRef, useCallback, createContext, useContext } f
 import { io } from 'socket.io-client';
 
 // ─── Config ─────────────────────────────────────────────────────────────────
-const API  = '/api';
-const SOCKET_URL = '';  // same origin via Vite proxy
+// In development:  Vite proxy forwards /api → localhost:5000 (no env var needed)
+// In production:   Netlify sets VITE_API_URL + VITE_SOCKET_URL to Railway URL
+const API        = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api';
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || '';
 
 // ─── Auth Context ────────────────────────────────────────────────────────────
 const AuthCtx = createContext(null);
